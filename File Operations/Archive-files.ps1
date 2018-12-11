@@ -17,16 +17,16 @@ $includebasedir = $false
 
 ##Copy Latest Iseries backup from TEV-DC01 to TEV-DC02, and write log file
 
-robocopy "e:\iseries backup" "\\TEV-DC01\ISeriesBackup" /NP /log:"E:\Iseries\RC_Log.txt" 
+robocopy "e:\iseries backup" "\\CUSTOMER-DC01\ISeriesBackup" /NP /log:"E:\Iseries\RC_Log.txt" 
 
 ##Collect Log file and Email to OPs Support 
 
-$fromaddress = "backup@tevlimited.com"
-$toaddress = "backup.reports@frontline-consultancy.co.uk"
-$BCCaddress = "ianworthington@tevlimited.com"
-$Subject = "TEV ISERIES BACKUP"
+$fromaddress = "backup@company.com"
+$toaddress = "backup.reports@company.co.uk"
+$BCCaddress = "user@company.com"
+$Subject = "CUSTOMER ISERIES BACKUP"
 $attachment1 = "E:\Iseries\RC_Log.txt"
-$smtpserver = "tev-exch01.tevlimited.com"
+$smtpserver = "smtpserver.customer.com"
 
 $message = new-object System.Net.Mail.MailMessage
 $message.From = $fromaddress
