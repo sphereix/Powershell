@@ -1,0 +1,3 @@
+dfsrdiag backlog /rgname:Quartz /rfname:Quartz /smem:TEV-DC01 /rmem:TEV-DC02 /v
+
+42598
