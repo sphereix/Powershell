@@ -1,0 +1,2 @@
+﻿Get-User -RecipientTypeDetails UserMailbox -ResultSize Unlimited | where {$_.UseraccountControl -notlike "*accountdisabled*"} | 
+Select-Object DisplayName,WindowsEmailAddress,Title, Office | Export-csv C:\temp\mail.csv

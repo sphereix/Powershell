@@ -1,0 +1,1 @@
+Get-Mailbox | Get-MailboxFolderStatistics | Where-Object {$_.FolderType -eq 'User Created' -and $_.folderpath -like '/calendar/*'} | select identity, name | ft -wrap
