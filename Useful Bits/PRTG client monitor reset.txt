@@ -1,0 +1,11 @@
+
+ Rebuild the list of available counters
+    Click Start, expand All Programs, and expand Accessories.
+    Right-click Command Prompt, and then click Run as administrator.
+    At the command prompt, type lodctr /r, and then press ENTER.
+
+ Win 2008 and above
+   winmgmt /verifyrepository
+
+
+  winmgmt /salvagerepository
