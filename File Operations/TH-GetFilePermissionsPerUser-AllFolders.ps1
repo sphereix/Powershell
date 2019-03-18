@@ -4,6 +4,10 @@
 #                                                 #
 ###################################################
 
+$retreivefolders = (Get-ChildItem -Path G:\Team_Drives -Recurse -Directory -Force -ErrorAction SilentlyContinue | Select-Object FullName | out-file "C:\temp\folderlist.txt")
+$amendfiles = Get-Content "C:\temp\folderlist.txt"
+$amendfiles | Foreach {$_.TrimEnd()} | Set-Content "C:\temp\folderlist2.txt"
+
 Start-Transcript -path C:\temp\output5.txt -append
 $folderlist = "C:\temp\folderlist2.txt"
 $User = "first.surname"
