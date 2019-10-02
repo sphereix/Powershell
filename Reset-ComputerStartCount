@@ -1,0 +1,11 @@
+1. Open Powershell as an administrator on the Delivery Controller. 
+2. Run the command: asnp citrix* (To load the Citrix modules)
+3. get the -IdentityPoolName "It's just the Machine Catalog Name"
+
+Get-AcctIdentityPool -IdentityPoolName "Machine Catalog Name" 
+
+Set-AcctIdentityPool -IdentityPoolName "Machine Catalog Name" -StartCount 1
+
+when finished, set start count back to where it should continue from:
+
+Set-AcctIdentityPool -IdentityPoolName "Machine Catalog Name" -StartCount 5
