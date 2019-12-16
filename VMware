@@ -1,0 +1,5 @@
+view console = dcui
+
+get world ID= esxcli vm process list
+
+kill VM = esxcli vm process kill -t force --world-id=27758264
