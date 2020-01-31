@@ -1,0 +1,1 @@
+$username = Get-WmiObject Win32_ComputerSystem | select Username | % {$_ -replace ‘@{Username=‘, “”} | % {$_ -replace ‘}‘, “”} | write-host
