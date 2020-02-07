@@ -1,0 +1,22 @@
+log on to esxi host
+cd /vmfs/volumes/"datastore"
+less *vmx | grep -i virtualdev
+ls -l bil-dc-01.bazroll.co.uk-flat.vmdk
+ls -l bil-dc-01.bazroll.co.uk-flat_1.vmdk
+
+
+vmkfstools -c "disksize" -a "disktype" -d thin temp.vmdk
+ls -lah
+mv -i temp.vmdk bil-dc-01.bazroll.co.uk.vmdk
+vi bil-dc-01.bazroll.co.uk.vmdk
+
+edit flat file to point at the existing flat file instead of temp-flat.vmdk
+
+rm -i temp-flat.vmdk
+
+vmkfstools -e bil-dc-01.bazroll.co.uk.vmdk
+
+
+
+
+
