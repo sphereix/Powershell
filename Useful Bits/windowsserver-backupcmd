@@ -1,0 +1,1 @@
+wbadmin start backup -allcritical -systemstate -backuptarget:"" -vssfull
