@@ -1,24 +1,20 @@
-$AdminMembers = @()
-# Fetch out all the members of the local administrators group
-$LocalAdminGroupMembers = Get-LocalGroupMember -Name Administrators
+# Replace <RemoteServerName> with the name of the remote server you want to run the command on
+$remoteServerName = "<RemoteServerName>"
 
-# Add all the user types to our final result
-$AdminMembers += $LocalAdminGroupMembers | Where-Object {$_.ObjectClass -eq "User"} | Select -ExpandProperty Name
+# Replace <OutputFilePath> with the path and file name where you want to save the results
+$outputFilePath = "<OutputFilePath>"
 
-# Iterate through the group and fetch users using the net group command and add the same to final result
-$LocalAdminGroupMembers | 
-Where-Object {$_.ObjectClass -eq "Group"} | foreach {
+# Replace <Credential> with the credentials of an account that has permission to run the command on the remote server
+$credential = Get-Credential
 
-    $netGroupResult = net group $(($_.Name -split "\\")[-1]) /domain
-    $AdminMembers   += $netGroupResult[8..($netGroupResult.length -3)] -split "\s+" | Where-Object {$_}
-}
-                                
+# Set up the session to connect to the remote server
+$session = New-PSSession -ComputerName $remoteServerName -Credential $credential
 
-# Display out the final result
-Write-Output "***********************************************************"
-Write-Output "Following are the members of the local administrators group"
-$LocalAdminGroupMembers
+# Run the command on the remote server and save the results to a variable
+$remoteResult = Invoke-Command -Session $session -ScriptBlock { get-localgroupmember -group "administrators" | select name -expandproperty name }
 
-Write-Output "***********************************************************"
-Write-Output "You have a total of $($AdminMembers.Count) admin user account present in the group, following are the details:"
-$AdminMembers
+# Close the session
+Remove-PSSession $session
+
+# Write the results to a text file
+$remoteResult | Out-File $outputFilePath
