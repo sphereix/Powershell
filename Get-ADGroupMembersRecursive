@@ -1,0 +1,35 @@
+Function Get-ADGroupMembersRecursive{
+Param(
+[Parameter(Mandatory = $true,ValueFromPipeline=$true)]
+[ValidateNotNullOrEmpty()]
+[String[]]$Groups,
+[ValidateNotNullOrEmpty()]
+[String[]]$Properties
+)
+Begin{
+$Results = @()
+[String[]]$defaultproperties = "distinguishedName","name","objectClass","objectGUID","SamAccountName","SID"
+$Properties+=$defaultproperties
+$Properties = $Properties | Sort-Object -Unique
+}
+Process{
+ForEach($adobj in $Groups){
+$getgroupdn = (Get-ADGroup -identity $adobj).DistinguishedName
+$findallgroups = Get-ADGroup -identity $getgroupdn -Properties members| Select-Object -ExpandProperty members | get-adobject | Where-Object{$_.objectClass -eq "Group"} |Select DistinguishedName
+$Results+=$getgroupdn
+ForEach($Object in $findallgroups){
+Get-ADGroupMembersRecursive $Object.DistinguishedName -Properties $Properties
+}
+}
+}
+End{
+$Results = $Results | Select-Object -Unique
+$collgroupmembers=@()
+foreach($item in $Results){
+$arrgroupmembers =@()
+$arrgroupmembers = Get-ADGroup -id $item -Properties members | Select-Object -ExpandProperty members |get-adobject | Where-Object{$_.objectClass -eq "user"} | Get-ADUser -properties $Properties | Select-Object $Properties
+$collgroupmembers+=$arrgroupmembers
+}
+$collgroupmembers
+}
+} #Get-ADGroupMembersRecursive
