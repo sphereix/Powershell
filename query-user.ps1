@@ -1,38 +1,24 @@
-# This script will read the list of servers from a .txt file, then export the groups that exist on the server then query active directory to see the users in those groups, including nested groups
+$serversFile = "C:\Path\To\Servers.txt"
+$outputFile = "C:\Path\To\GroupMembers.txt"
 
-# Import the required modules
-Import-Module csv
-Import-Module activedirectory
+# Get list of remote servers from file
+$servers = Get-Content $serversFile
 
-# Get the path to the .txt file
-$txtPath = "C:\Path\To\Servers.txt"
-
-# Read in the .txt file
-$servers = Get-Content $txtPath
-
-# For each server in the .txt file
-foreach ($server in $servers) {
-
-    # Get the groups that exist on the server
-    $groups = Get-ADGroup -Server $server -Recursive
-
-    # Export the groups to a text file
-    Export-Csv "C:\Path\To\Groups.csv" -InputObject $groups
-
-    # Query Active Directory to see the users in those groups
-    $users = Get-ADUser -Filter * -Properties MemberOf -ResultSetSize Unlimited
-
-    # For each user in Active Directory
-    foreach ($user in $users) {
-
-        # Check if the user is a member of any of the groups on the server
-        $isMember = $groups | ForEach-Object { $_ -Contains $user.SamAccountName }
-
-        # If the user is a member of any of the groups on the server
-        if ($isMember) {
-
-            # Write the user's name to the console
-            Write-Host $user.SamAccountName
-        }
+# Loop through each server and get the list of administrators
+$groupMembers = foreach ($server in $servers) {
+    # Use Invoke-Command to run the Get-LocalGroupMember command on the remote server
+    Invoke-Command -ComputerName $server -ScriptBlock {
+        Get-LocalGroupMember -Group "administrators"
     }
+}
+
+# Save the list of group members to a file
+$groupMembers | Out-File $outputFile
+
+# Get list of groups from the output file
+$groups = Get-Content $outputFile | Select-String -Pattern "^Group" | ForEach-Object { $_.Line -replace "Group\s+:\s+" }
+
+# Loop through each group and get the list of members from Active Directory
+foreach ($group in $groups) {
+    Get-ADGroupMember -Identity $group | Select-Object -ExpandProperty SamAccountName
 }
