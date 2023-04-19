@@ -1,0 +1,27 @@
+# Path to the input CSV file
+$csvPath = "C:\path\to\input.csv"
+
+# Path to the output CSV file
+$outputPath = "C:\path\to\output.csv"
+
+# Import the CSV file
+$csv = Import-Csv $csvPath
+
+# Loop through each row in the CSV
+foreach ($row in $csv) {
+    # Get the email address from the row
+    $email = $row.Email
+
+    # Add "+infra" before the @ symbol
+    $newEmail = $email -replace '@', '+infra@'
+
+    # Add the new email address to a new column
+    $row | Add-Member -MemberType NoteProperty -Name "NewEmail" -Value $newEmail
+}
+
+# Export the modified CSV to a new file
+$csv | Export-Csv $outputPath -NoTypeInformation
+
+#This script imports a CSV file, loops through each row in the CSV, adds "+infra" before the @ symbol in the email address, adds the modified email address to a new column called "NewEmail", and then exports the modified CSV to a new file.
+
+#You'll need to replace the $csvPath and $outputPath variables with the actual paths to your input and output CSV files. Also, make sure that your input CSV file has a header row with a column called "Email".
