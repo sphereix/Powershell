@@ -1,0 +1,23 @@
+# Set variables for email parameters
+$From = "sender@example.com"
+$To = "recipient@example.com"
+$Subject = "Password for [Service Name]"
+
+# Set the password you want to send
+$Password = "MySecurePassword123!"
+
+# Set the path to the image file for your company logo
+$LogoPath = "C:\Path\To\Logo\Image.png"
+
+# Create the HTML header with your company logo
+$Header = @"
+<html>
+<body>
+<p><img src="$LogoPath" alt="Company Logo"></p>
+<h2>Password for [Service Name]</h2>
+</body>
+</html>
+"@
+
+# Send the email using Send-MailMessage
+Send-MailMessage -From $From -To $To -Subject $Subject -Body $Password -BodyAsHtml -SmtpServer "smtp.example.com" -Credential (Get-Credential) -UseSsl -Port 587 -Encoding UTF8 -Priority High -Body $Header
