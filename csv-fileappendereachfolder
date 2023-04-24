@@ -1,0 +1,17 @@
+# Define the folder containing the subfolders with CSV files
+$parentFolder = "C:\ParentFolder"
+
+# Define the output file path
+$outputFile = "C:\OutputFolder\Output.csv"
+
+# Get a list of subfolders in the parent folder
+$subFolders = Get-ChildItem $parentFolder -Directory
+
+# Loop through each subfolder and append the data from its CSV file to the output file
+foreach ($subFolder in $subFolders) {
+    $csvFile = Join-Path $subFolder.FullName "Data.csv"
+    if (Test-Path $csvFile) {
+        $data = Import-Csv $csvFile
+        $data | Export-Csv $outputFile -Append -NoTypeInformation
+    }
+}
