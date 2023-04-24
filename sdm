@@ -1,0 +1,16 @@
+# Set the input CSV file path
+$inputFilePath = "C:\path\to\input\file.csv"
+
+# Set the output CSV file path
+$outputFilePath = "C:\path\to\output\file.csv"
+
+# Read the CSV file
+$data = Import-Csv $inputFilePath
+
+# Add a new column with the suffix "-sdm" to each value in the "samaccountname" column
+$data | ForEach-Object {
+    $_ | Add-Member -MemberType NoteProperty -Name "samaccountname-sdm" -Value ($_.samaccountname + "-sdm")
+}
+
+# Export the modified data to a new CSV file
+$data | Export-Csv $outputFilePath -NoTypeInformation
