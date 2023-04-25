@@ -1,0 +1,11 @@
+# read the CSV file and select the columns "samaccountnamenew" and "password"
+$data = Import-Csv -Path "C:\path\to\file.csv" | Select-Object -Property samaccountnamenew, password
+
+# loop through each row in the data and store values in variables
+foreach ($row in $data) {
+    $username = $row.samaccountnamenew
+    $password = $row.password
+
+    # run another script with the variables as arguments
+    & "C:\path\to\script.ps1" -username $username -password $password
+}
