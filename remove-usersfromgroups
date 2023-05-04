@@ -1,0 +1,18 @@
+# Define the path to the file containing the list of AD groups
+$groupsFile = "C:\path\to\groups.txt"
+
+# Define the filter for user names to exclude from the group
+$userFilter = "*-sdm"
+
+# Read the list of AD groups from the file
+$groups = Get-Content $groupsFile
+
+# Loop through each group and remove any users that don't match the filter
+foreach ($group in $groups) {
+    Write-Host "Processing group $group"
+    $members = Get-ADGroupMember $group | Where-Object { $_.objectClass -eq "user" -and $_.Name -notlike $userFilter }
+    foreach ($member in $members) {
+        Write-Host "Removing user $($member.Name) from group $group"
+        Remove-ADGroupMember $group -Members $member -Confirm:$false
+    }
+}
