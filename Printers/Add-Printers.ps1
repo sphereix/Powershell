@@ -14,7 +14,10 @@ foreach ($printer in $printers) {
     Add-PrinterPort -Name $printerName -PrinterHostAddress $ip -PortNumber 9100
 
     # Add the printer using Add-Printer cmdlet
-    Add-Printer -Name $printerName -DriverName $driverName -PortName $printerName -Comment "Added by PowerShell" 
+    Add-Printer -Name $printerName -DriverName $driverName -PortName $printerName -Comment "Added by PowerShell"
+
+    # set printer to share
+    set-printer -name $printerName -Shared $true -published $true -ShareName $printerName 
 
     Write-Host "Printer '$printerName' added successfully."
 }
