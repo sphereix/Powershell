@@ -2,6 +2,6 @@
 # from this directory when all 3 files are in place - see "Convert-SharePermissionsSIDS.ps1"
 
 cd C:\SIDHistoryUsers
-Export-SIDMappingCustom -ObjectType User -Property samAccountName -OldCSV .\2sfg-users.csv -NewCSV .\hollandspies.org-users.csv -MapFile SIDMap.csv
+Export-SIDMappingCustom -ObjectType User -Property samAccountName -OldCSV .\2sfg-users.csv -NewCSV .\domain1.org-users.csv -MapFile SIDMap.csv
 Get-Content .\SIDMap.csv
 Get-Content .\SIDMap.csv | Measure-Object
