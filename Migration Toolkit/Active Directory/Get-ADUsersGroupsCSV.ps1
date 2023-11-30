@@ -7,7 +7,7 @@ if (-not (Get-Module -Name ActiveDirectory)) {
 # Define the output CSV file path
 $global:csvFilePath = ".\AD-GroupsReport.csv"
 
-#Define Seach OU, Replace 'OU=Users,OU=Hollands,DC=2sfg,DC=net' with the DN (Distinguished Name) of your target OU
+#Define Seach OU, Replace 'OU=Users,OU=COMPANY,DC=DOMAIN,DC=net' with the DN (Distinguished Name) of your target OU
 $global:ouDistinguishedName = 'OU=Users,OU=COMPANY,DC=DOMAIN,DC=net'
 
 }
