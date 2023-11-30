@@ -6,8 +6,8 @@
 $outfolderlocation = "C:\SIDHistoryUsers"
 
 ##define AD variables
-$SearchBase = "OU=Hollands Pies,DC=HOLLANDSPIES,DC=ORG"
-$Domain = 'hollandspies.org'
+$SearchBase = "OU=Users,DC=DOMAIN,DC=ORG"
+$Domain = 'domain.org'
 
 
 #create directory
