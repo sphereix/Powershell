@@ -2,7 +2,7 @@
 
 
 # Read CSV files
-$csv1 = Import-Csv -Path 'C:\SIDHistoryGroups\hollandspies.org-Groups.csv'
+$csv1 = Import-Csv -Path 'C:\SIDHistoryGroups\domain.org-Groups.csv'
 $csv2 = Import-Csv -Path 'C:\SIDHistoryGroups\SIDMap.csv'
 
 # Iterate through each row in csv1
