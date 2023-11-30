@@ -18,7 +18,7 @@ foreach ($user in $users) {
     $newemailaddress = $user.NewEmailAddress
 
     # Create a new user
-    New-ADUser -Name "$givenName $surname" -SamAccountName $samAccountName -GivenName $givenName -Surname $surname -UserPrincipalName "$samAccountName@hollandspies.org" -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) -Enabled $true -Path $ouPath
+    New-ADUser -Name "$givenName $surname" -SamAccountName $samAccountName -GivenName $givenName -Surname $surname -UserPrincipalName "$samAccountName@domain.org" -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) -Enabled $true -Path $ouPath
 
     # You may need to set additional properties like email, department, etc.
     Set-ADUser -Identity $samAccountName -EmailAddress $user.NewEmailAddress
