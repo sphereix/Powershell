@@ -6,8 +6,8 @@
 $outfolderlocation =  "C:\SIDHistoryGroups"
 
 ##define AD variables
-$SearchBase = "OU=Hollands Pies,DC=HOLLANDSPIES,DC=ORG"
-$Domain = 'hollandspies.org'
+$SearchBase = "OU=Groups,DC=DOMAIN,DC=ORG"
+$Domain = 'domain.org'
 
 #create directory
 write-host "Creating Folder $outfolderlocation"
