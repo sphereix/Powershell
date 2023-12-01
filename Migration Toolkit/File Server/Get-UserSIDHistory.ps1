@@ -1,5 +1,5 @@
 ﻿##RUN ON BOTH DOMAINS AND GET DOMAINNAME_users.csv for each domain
-# place output from source domain into the same folder (C:\SIDHistoryUsers) with the domain name prefix, for example 2SFG_Users.csv
+# place output from source domain into the same folder (C:\SIDHistoryUsers) with the domain name prefix, for example DOMAIN_Users.csv
 
 
 #define output folder location to  be created
