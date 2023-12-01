@@ -1,5 +1,5 @@
 ﻿##RUN ON BOTH DOMAINS AND MODIFY THE -SEARCHBASE AS REQUIRED, GET COMPANY_users.csv from each domain, edit the -server switch with the correct domain name
-# place output from source domain into the same folder (C:\SIDHistoryGroups) with the domain name prefix, for example 2SFG_Groups.csv
+# place output from source domain into the same folder (C:\SIDHistoryGroups) with the domain name prefix, for example DOMAIN_Groups.csv
 
 
 #define output folder location to  be created
