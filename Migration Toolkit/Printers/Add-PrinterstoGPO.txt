@@ -1,0 +1,48 @@
+this one is a bit fiddly to work with but can save a bunch of time when trying to import printers into a GPO.
+make sure the printers are set up on the print server using the other script in this folder and that they are shared.
+
+first, create a new GPO in group policy on a DC 
+go to the user preferences > control panel > printers and add one printer into the policy
+ right click on the whitespace in the GPO editor and select "view xml"
+it will look something like this:
+
+<?xml version="1.0" encoding="utf-8"?>
+<Printers clsid="{1F575C12-3D1B-471e-A1B7-060317597B9C}"><SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="Finance" status="Finance" image="2" changed="2024-01-21 13:45:06" uid="{ACEAF33E-73BF-4B56-AB88-1A86B3E00D2E}"><Properties action="U" comment="" path="\\PRINT-SERVER\Finance" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
+</Printers>
+
+save this .xml file to somewhere
+
+then, you need to run this script on the print server to get the values that you need to add.
+
+$destinations = "C:\scripts\printers2.xml"  #<-- destination of your xml
+$Printserver = "PRINT-SERVER" #<--- your print server
+
+$Printers = Get-WMIObject Win32_Printer -computername $Printserver
+$printerstrier = $Printers |select Name,Sharename,systemname
+$text=""
+$text > $destinations
+foreach ($csvtrier2 in $printerstrier) {
+$nomimp = $csvtrier2.Name
+$serveur = $csvtrier2.systemname
+$newguid = [System.Guid]::NewGuid().toString()
+$temps = Get-Date -Format G
+$text="<SharedPrinter clsid=`"{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}`" name=`"$nomimp`" status=`"$nomimp`" image=`"0`" changed=`"$temps`" uid=`"{$newguid}`"><Properties action=`"C`" comment=`"`" `path=`"`\`\$serveur`\$nomimp`" location=`"`" default=`"0`" skipLocal=`"0`" deleteAll=`"0`" persistent=`"0`" deleteMaps=`"0`" port=`"`"/></SharedPrinter>"
+$text >> $destinations
+}
+
+this will export the SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" values of the printers
+
+copy and paste the output of "C:\scripts\printers2.xml" into the .xml file you've saved
+
+it will read something like this, TAKE NOTE OF THE INDENTS!
+
+<?xml version="1.0" encoding="utf-8"?>
+<Printers clsid="{1F577D12-3D1B-471e-A1B7-060317597B9C}"><SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="Finance" status="Finance" image="2" changed="2024-01-21 13:45:06" uid="{ACEAF33E-73BF-4B56-AB88-1A86B3E00D2E}"><Properties action="U" comment="" path="\\PRINT-SERVER\Finance" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
+	<SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="PRINTER2" status="PRINTER2" image="2" changed="2024-01-21 13:45:14" uid="{1A9E2BF9-BE3C-4CB3-BA12-9F3F6BD6F34A}"><Properties action="U" comment="" path="\\PRINT-SERVER\PRINTER2" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
+	<SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="PRINTER3" status="PRINTER3" image="2" changed="2024-01-21 13:45:33" uid="{4D9302E2-42AE-4005-BB33-3A6B6FDFF347}"><Properties action="U" comment="" path="\\PRINT-SERVER\PRINTER3" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
+	<SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="PRINTER4" status="PRINTER4" image="2" changed="2024-01-21 13:45:43" uid="{90664531-714E-447B-BBB3-1AC3CDCBBFC5}"><Properties action="U" comment="" path="\\PRINT-SERVER\PRINTER4" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
+</Printers>
+
+once you've got the .xml file populated, then you can just copy the .xml file and paste it into the white space in the GPO you created.
+
+this will import all the printer into the policy
