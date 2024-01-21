@@ -43,6 +43,6 @@ it will read something like this, TAKE NOTE OF THE INDENTS!
 	<SharedPrinter clsid="{9A5E9697-9095-436d-A0EE-4D128FDFBCE5}" name="PRINTER4" status="PRINTER4" image="2" changed="2024-01-21 13:45:43" uid="{90664531-714E-447B-BBB3-1AC3CDCBBFC5}"><Properties action="U" comment="" path="\\PRINT-SERVER\PRINTER4" location="" default="0" skipLocal="0" deleteAll="0" persistent="0" deleteMaps="0" port=""/></SharedPrinter>
 </Printers>
 
-once you've got the .xml file populated, then you can just copy the .xml file and paste it into the white space in the GPO you created.
+once you've got the .xml file populated, then you can just drag the .xml file and paste it into the white space in the GPO you created under preferences > control panel > printers
 
 this will import all the printer into the policy
