@@ -1,0 +1,13 @@
+esxcli system maintenanceMode set --enable true
+vim-cmd hostsvc/firmware/backup_config
+esxcli system maintenanceMode set --enable false
+
+
+cp /scratch/downloads/configBundle-BanhamHost04.banhampoultryuk.com.local.tgz /tmp/configBundle.tgz
+
+vim-cmd hostsvc/firmware/restore_config /tmp/configBundle.tgz
+
+
+
+esxcli system settings encryption get
+esxcli system settings kernel set -s execInstalledOnly -v TRUE
